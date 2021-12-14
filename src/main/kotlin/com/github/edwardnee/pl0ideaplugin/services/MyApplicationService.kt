@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.edwardnee.pl0ideaplugin.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.edwardnee.pl0ideaplugin.MyBundle
 
 class MyApplicationService {
 
