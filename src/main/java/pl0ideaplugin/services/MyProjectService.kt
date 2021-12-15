@@ -1,4 +1,4 @@
-package com.github.edwardnee.pl0ideaplugin.services
+package pl0ideaplugin.services
 
 import com.intellij.openapi.project.Project
 import com.github.edwardnee.pl0ideaplugin.MyBundle

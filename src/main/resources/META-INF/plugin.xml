@@ -7,12 +7,22 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.edwardnee.pl0ideaplugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.edwardnee.pl0ideaplugin.services.MyProjectService"/>
+        <lang.parserDefinition language="Pascal"
+                               implementationClass="pl0ideaplugin.PascalParserDefinition"/>
+
+        <applicationService serviceImplementation="pl0ideaplugin.services.MyApplicationService"/>
+        <projectService serviceImplementation="pl0ideaplugin.services.MyProjectService"/>
+
+        <fileType name="Pascal File"
+                  implementationClass="pl0ideaplugin.PascalFileType"
+                  fieldName="INSTANCE"
+                  language="Pascal"
+                  extensions="pas"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.edwardnee.pl0ideaplugin.listeners.MyProjectManagerListener"
+        <listener class="pl0ideaplugin.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 </idea-plugin>
+
