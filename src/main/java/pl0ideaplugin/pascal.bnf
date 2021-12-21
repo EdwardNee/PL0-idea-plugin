@@ -27,36 +27,51 @@
     odd = "odd"
     number="regexp:\d+"
     id="regexp:[a-z]([a-z0-9])*"
+    equaling=":="
+
+    plus='+'
+    minus='-'
+    product='*'
+    delim='/'
+
+    less='<'
+    lesseq='<='
+    greater='>'
+    greatereq='>='
+
+    comma=','
+    semicol=';'
+    dot='.'
   ]
 }
 
 program
-    ::= block '.'
+    ::= block dot
 
 block
-    ::= [const id '=' number ( ',' id '=' number ) * ';']
+    ::= [const id '=' number ( ',' id '=' number ) * semicol]
         [var id (',' id) * ';']
-        [(procedure id ';' block ';')*]
+        [(procedure id semicol block semicol)*]
         statement
 
 statement
-    ::= id ':=' expression
+    ::= id equaling expression
     | call id
     | '?' id
     | '!' expression
-    | begin statement (';' statement ) * end
+    | begin statement (semicol statement ) * end
     | if condition then statement
     | while condition do statement
 
 condition
     ::= odd expression
-    | expression ('=' | '#' | '<=' | '<' | '>=' | '>') expression
+    | expression ('=' | '#' | lesseq | less | greatereq | greater) expression
 
 expression
-    ::= ('+' | '-')? term [ (('+' | '-') term)* ]
+    ::= (plus | minus)? term [ ((plus | minus) term)* ]
 
 term
-    ::= factor [ (('*' | '/') factor)* ]
+    ::= factor [ ((product | delim) factor)* ]
 
 factor
     ::= id | number | '(' expression ')'

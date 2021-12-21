@@ -7,8 +7,13 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+
+        <colorSettingsPage implementation="pl0ideaplugin.highlighter.PascalColorSettingsPage"/>
         <lang.parserDefinition language="Pascal"
                                implementationClass="pl0ideaplugin.PascalParserDefinition"/>
+
+        <lang.syntaxHighlighterFactory language="Pascal"
+                                       implementationClass="pl0ideaplugin.highlighter.PascalSyntaxHighlighterFactory"/>
 
         <applicationService serviceImplementation="pl0ideaplugin.services.MyApplicationService"/>
         <projectService serviceImplementation="pl0ideaplugin.services.MyProjectService"/>
