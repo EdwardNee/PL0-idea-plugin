@@ -1,54 +1,62 @@
 {
-    parserClass='pl0ideaplugin.PascalParser'
+  parserClass='pl0ideaplugin.PascalParser'
 
-    extends = 'com.intellij.extapi.psi.ASTWrapperPsiElement'
+  extends='com.intellij.extapi.psi.ASTWrapperPsiElement'
 
-    psiClassPrefix='Pascal'
-    psiImplClassSuffix='Impl'
-    psiPackage='pl0ideaplugin.psi'
-    psiImplPackage='pl0ideaplugin.psi.impl'
+  psiClassPrefix='Pascal'
+  psiImplClassSuffix='Impl'
+  psiPackage='pl0ideaplugin.psi'
+  psiImplPackage='pl0ideaplugin.psi.impl'
 
-    elementTypeHolderClass='pl0ideaplugin.psi.PascalTypes'
-    elementTypeClass='pl0ideaplugin.psi.PascalElementType'
-    tokenTypeClass='pl0ideaplugin.psi.PascalTokenType'
-}
+  elementTypeHolderClass='pl0ideaplugin.psi.PascalTypes'
+  elementTypeClass='pl0ideaplugin.psi.PascalElementType'
+  tokenTypeClass='pl0ideaplugin.psi.PascalTokenType'
 
-{
   tokens=[
-    number='regexp:\d+(\.\d*)?'
-    ident='regexp:\p{Alpha}\w*'
+    space = "regexp:\s+"
+    const="const"
+    var="var"
+    procedure="procedure"
+    call = "call"
+    begin = "begin"
+    end = "end"
+    while = "while"
+    do = "do"
+    if = "if"
+    then = "then"
+    odd = "odd"
+    number="regexp:\d+"
+    id="regexp:[a-z]([a-z0-9])*"
   ]
-
-  name(".*expr")='expression'
-  extends(".*expr")=expr
 }
 
 program
-    ::= block "."
+    ::= block '.'
 
 block
-    ::= 'const' ident '=' number (',' ident ' = ' number) * ';'
-    | 'var' ident (',' ident) * ';'
-    | ('procedure' ident ';' block ';') * statement
+    ::= [const id '=' number ( ',' id '=' number ) * ';']
+        [var id (',' id) * ';']
+        [(procedure id ';' block ';')*]
+        statement
 
 statement
-    ::= ident ':=' expression
-    | ident ':=' 'call' ident
-    | '?' ident
+    ::= id ':=' expression
+    | call id
+    | '?' id
     | '!' expression
-    | 'begin' statement (';' statement) * 'end'
-    | 'if' condition 'do' statement
-    | 'while' condition 'do' statement
+    | begin statement (';' statement ) * end
+    | if condition then statement
+    | while condition do statement
 
 condition
-    ::='odd' expression
-    | expression ('=' | '#' | '<' | '<=' | '>' | '>=') expression
+    ::= odd expression
+    | expression ('=' | '#' | '<=' | '<' | '>=' | '>') expression
 
 expression
-    ::= ('+' | '-') term [('+' | '-') term ]
+    ::= ('+' | '-')? term [ (('+' | '-') term)* ]
 
 term
-    ::= factor [ ('*' | '/') factor ]
+    ::= factor [ (('*' | '/') factor)* ]
 
 factor
-    ::= ident | number | '(' expression ')'
+    ::= id | number | '(' expression ')'
